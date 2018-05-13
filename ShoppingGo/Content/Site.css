@@ -22,3 +22,14 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+/*
+    Bootstrap Overload
+*/
+
+
+.nav-dropdown-item {
+    display: block;
+    padding: 7px 15px;
+}

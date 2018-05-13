@@ -6,10 +6,10 @@ using System.Web;
 
 namespace ShoppingGo.Models
 {
-    public class Cart
+    public class CartItem
     {
         [Key]
-        public int RecordId { get; set; }
+        public int CartItemId { get; set; }
         public string CartId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }

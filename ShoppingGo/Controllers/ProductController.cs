@@ -15,8 +15,17 @@ namespace ShoppingGo.Controllers
 {
     public class ProductController : Controller
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork;
 
+        public ProductController()
+        {
+            this.unitOfWork = new UnitOfWork();
+        }
+
+        public ProductController(UnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
         // GET: Product
         public async Task<ActionResult> Index()
         {
@@ -72,7 +81,6 @@ namespace ShoppingGo.Controllers
             Product product = await unitOfWork.ProductRepository.GetAsync(id);
             var productViewModel = new ProductViewModel(product);
             productViewModel.Categories = await unitOfWork.CategoryRepository.GetAsync();        
-
         
             if (product == null)
             {
@@ -104,6 +112,7 @@ namespace ShoppingGo.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = await unitOfWork.ProductRepository.GetAsync(id);
+
             if (product == null)
             {
                 return HttpNotFound();

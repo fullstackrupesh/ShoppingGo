@@ -14,7 +14,17 @@ namespace ShoppingGo.Controllers
 {
     public class CategoryController : Controller
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();        
+        private UnitOfWork unitOfWork;
+
+        public CategoryController()
+        {
+            unitOfWork = new UnitOfWork();
+        }
+
+        public CategoryController(UnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
 
         // GET: Category
         public async Task<ActionResult> Index()

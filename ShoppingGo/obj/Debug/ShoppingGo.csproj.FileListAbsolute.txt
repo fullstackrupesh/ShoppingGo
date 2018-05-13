@@ -97,3 +97,4 @@ H:\mediaocean\ShoppingGo\ShoppingGo\obj\Debug\ShoppingGo.dll
 H:\mediaocean\ShoppingGo\ShoppingGo\obj\Debug\ShoppingGo.pdb
 H:\mediaocean\ShoppingGo\ShoppingGo\obj\Debug\ShoppingGo.Migrations.ProductCategoryRelationAdded.resources
 H:\mediaocean\ShoppingGo\ShoppingGo\obj\Debug\ShoppingGo.csprojResolveAssemblyReference.cache
+H:\mediaocean\ShoppingGo\ShoppingGo\obj\Debug\ShoppingGo.Migrations.CartModelAdded.resources
