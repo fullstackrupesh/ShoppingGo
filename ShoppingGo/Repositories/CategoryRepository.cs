@@ -1,56 +1,57 @@
-﻿using System;
+﻿using ShoppingGo.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace ShoppingGo.Repositories
 {
-    public class GenericRepository<TEntity> : IDisposable
-        where TEntity : class, new()
+    public class CategoryRepository : IRepository<Category>, IDisposable
     {
         private RepositoryContext context;
-        private DbSet<TEntity> dbSet;
+        private DbSet<Category> dbSet;
 
-        public GenericRepository(RepositoryContext context)
+        public CategoryRepository(RepositoryContext context)
         {
-            context = new RepositoryContext();
-            dbSet = context.Set<TEntity>();
+            this.context = context;
+            dbSet = context.Categories;
         }
 
-        public virtual Task<List<TEntity>> GetAsync()
+        public Task<List<Category>> GetAsync()
         {
-            return dbSet.ToListAsync();            
+            return dbSet.ToListAsync();
         }
 
-        public virtual Task<TEntity> GetAsync(int? id)
+        public Task<Category> GetAsync(int? id)
         {
             return dbSet.FindAsync(id);
         }
 
-        public virtual Task<int> InsertAsync(TEntity entity)
+        public Task<int> InsertAsync(Category entity)
         {
             dbSet.Add(entity);
             return context.SaveChangesAsync();
         }
 
-        public void Update(TEntity entity)
+        public Task<int> UpdateAsync(Category entity)
         {
             dbSet.Attach(entity);
             context.Entry(entity).State = EntityState.Modified;
+            return context.SaveChangesAsync();
         }
 
-        public void Delete(TEntity entity)
+        public Task<int> DeleteAsync(Category entity)
         {
             if (context.Entry(entity).State == EntityState.Detached)
             {
                 dbSet.Attach(entity);
             }
             dbSet.Remove(entity);
+            return context.SaveChangesAsync();
         }
-        
+
         public Task<int> Save()
         {
             return context.SaveChangesAsync();

@@ -17,6 +17,7 @@ H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\System.Web.WebPages.Deployme
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\System.Web.WebPages.dll
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\System.Web.WebPages.Razor.dll
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\System.Web.Optimization.dll
+H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\EntityFramework.dll
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\ShoppingGo.pdb
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\ShoppingGo.dll.config
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
@@ -29,10 +30,9 @@ H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\System.Web.WebPages.xml
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\System.Web.WebPages.Deployment.xml
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\System.Web.WebPages.Razor.xml
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\System.Web.Optimization.xml
+H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\EntityFramework.xml
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\obj\Debug\ShoppingGo.Tests.csprojResolveAssemblyReference.cache
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\obj\Debug\ShoppingGo.Tests.csproj.CoreCompileInputs.cache
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\obj\Debug\ShoppingGo.Tests.csproj.CopyComplete
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\obj\Debug\ShoppingGo.Tests.dll
 H:\mediaocean\ShoppingGo\ShoppingGo.Tests\obj\Debug\ShoppingGo.Tests.pdb
-H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\EntityFramework.dll
-H:\mediaocean\ShoppingGo\ShoppingGo.Tests\bin\Debug\EntityFramework.xml

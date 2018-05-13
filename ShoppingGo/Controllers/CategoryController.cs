@@ -52,8 +52,7 @@ namespace ShoppingGo.Controllers
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.CategoryRepository.Insert(category);
-                await unitOfWork.SaveAsync();
+                await unitOfWork.CategoryRepository.InsertAsync(category);                
                 return RedirectToAction("Index");
             }
 
@@ -84,8 +83,7 @@ namespace ShoppingGo.Controllers
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.CategoryRepository.Update(category);
-                await unitOfWork.SaveAsync();
+                await unitOfWork.CategoryRepository.UpdateAsync(category);                
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -112,8 +110,7 @@ namespace ShoppingGo.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Category category = await unitOfWork.CategoryRepository.GetAsync(id);
-            unitOfWork.CategoryRepository.Delete(category);
-            await unitOfWork.SaveAsync();
+            await unitOfWork.CategoryRepository.DeleteAsync(category);            
             return RedirectToAction("Index");
         }
 

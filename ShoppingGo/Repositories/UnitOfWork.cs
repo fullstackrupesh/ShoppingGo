@@ -11,27 +11,27 @@ namespace ShoppingGo.Repositories
     {
         private RepositoryContext context = new RepositoryContext();
 
-        private GenericRepository<Category> categoryRepository;
-        public GenericRepository<Category> CategoryRepository
+        private CategoryRepository categoryRepository;
+        public CategoryRepository CategoryRepository
         {
             get
             {
                 if (this.categoryRepository == null)
                 {
-                    this.categoryRepository = new GenericRepository<Category>(context);
+                    this.categoryRepository = new CategoryRepository(context);
                 }
                 return categoryRepository;
             }
         }
 
-        private GenericRepository<Product> productRepository;
-        public GenericRepository<Product> ProductRepository
+        private ProductRepository productRepository;
+        public ProductRepository ProductRepository
         {
             get
             {
                 if (this.productRepository == null)
                 {
-                    this.productRepository = new GenericRepository<Product>(context);
+                    this.productRepository = new ProductRepository(context);
                 }
                 return productRepository;
             }

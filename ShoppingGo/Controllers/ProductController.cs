@@ -9,12 +9,13 @@ using System.Web;
 using System.Web.Mvc;
 using ShoppingGo.Models;
 using ShoppingGo.Repositories;
+using ShoppingGo.ViewModels;
 
 namespace ShoppingGo.Controllers
 {
     public class ProductController : Controller
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();       
+        private UnitOfWork unitOfWork = new UnitOfWork();
 
         // GET: Product
         public async Task<ActionResult> Index()
@@ -38,9 +39,11 @@ namespace ShoppingGo.Controllers
         }
 
         // GET: Product/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            var productViewModel = new ProductViewModel();
+            productViewModel.Categories = await unitOfWork.CategoryRepository.GetAsync();
+            return View(productViewModel);
         }
 
         // POST: Product/Create
@@ -48,12 +51,11 @@ namespace ShoppingGo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ProductId,Name,Price")] Product product)
+        public async Task<ActionResult> Create([Bind(Include = "ProductId,Name,Price,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.ProductRepository.Insert(product);
-                await unitOfWork.SaveAsync();
+                await unitOfWork.ProductRepository.InsertAsync(product);
                 return RedirectToAction("Index");
             }
 
@@ -68,11 +70,15 @@ namespace ShoppingGo.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = await unitOfWork.ProductRepository.GetAsync(id);
+            var productViewModel = new ProductViewModel(product);
+            productViewModel.Categories = await unitOfWork.CategoryRepository.GetAsync();        
+
+        
             if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(productViewModel);
         }
 
         // POST: Product/Edit/5
@@ -80,12 +86,11 @@ namespace ShoppingGo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ProductId,Name,Price")] Product product)
+        public async Task<ActionResult> Edit([Bind(Include = "ProductId,Name,Price,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.ProductRepository.Update(product);
-                await unitOfWork.SaveAsync();
+                await unitOfWork.ProductRepository.UpdateAsync(product);
                 return RedirectToAction("Index");
             }
             return View(product);
@@ -112,8 +117,7 @@ namespace ShoppingGo.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Product product = await unitOfWork.ProductRepository.GetAsync(id);
-            unitOfWork.ProductRepository.Delete(product);
-            await unitOfWork.SaveAsync();
+            await unitOfWork.ProductRepository.DeleteAsync(product);
             return RedirectToAction("Index");
         }
 

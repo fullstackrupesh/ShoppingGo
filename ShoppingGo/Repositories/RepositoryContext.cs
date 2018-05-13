@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShoppingGo.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,8 +13,7 @@ namespace ShoppingGo.Repositories
         {
         }
 
-        public System.Data.Entity.DbSet<ShoppingGo.Models.Category> Categories { get; set; }
-
-        public System.Data.Entity.DbSet<ShoppingGo.Models.Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
