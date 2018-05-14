@@ -26,7 +26,7 @@ namespace ShoppingGo.Controllers
 
         public ActionResult Index()
         {
-            var cart = ShoppingCart.Instance.GetShoppingCart(this);
+            var cart = ShoppingCart.GetShoppingCart(this, unitOfWork);
 
             var cartViewModel = new CartViewModel
             {
@@ -40,21 +40,21 @@ namespace ShoppingGo.Controllers
 
         public async Task<ActionResult> AddToCart(int? productId)
         {
-            var cart = ShoppingCart.Instance.GetShoppingCart(this);
+            var cart = ShoppingCart.GetShoppingCart(this, unitOfWork);
 
             var productToAdd = await unitOfWork.ProductRepository.GetAsync(productId);
 
             cart.AddToCart(productToAdd);
 
-            return RedirectToAction("Index");            
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public async Task<ActionResult> RemoveFromCart(int id)
+        public ActionResult RemoveFromCart(int id)
         {
-            var cart = ShoppingCart.Instance.GetShoppingCart(this);
+            var cart = ShoppingCart.GetShoppingCart(this, unitOfWork);
 
-            var cartItems = await unitOfWork.CartRepository.GetAsync();
+            var cartItems = unitOfWork.CartRepository.Get();
 
             string productName = cartItems
                 .Single(item => item.RecordId == id).Product.Name;
@@ -76,7 +76,7 @@ namespace ShoppingGo.Controllers
         [ChildActionOnly]
         public ActionResult CartSummary()
         {
-            var cart = ShoppingCart.Instance.GetShoppingCart(this);
+            var cart = ShoppingCart.GetShoppingCart(this, unitOfWork);
             ViewData["CartCount"] = cart.GetCount();
 
             return PartialView("CartSummary");

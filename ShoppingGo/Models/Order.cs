@@ -12,6 +12,7 @@ namespace ShoppingGo.Models
         public int OrderId { get; set; }        
         public DateTime DateCreated { get; set; }
         public decimal TotalAmount { get; set; }
-        public decimal TotalTax { get; set; }    
+        public decimal TotalTax { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
     }
 }

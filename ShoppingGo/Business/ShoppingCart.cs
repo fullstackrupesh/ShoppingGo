@@ -15,30 +15,45 @@ namespace ShoppingGo.Business
 
         private UnitOfWork unitOfWork;
 
-        private static ShoppingCart instance;
-
-        private ShoppingCart()
+        private ShoppingCart(UnitOfWork unitOfWork)
         {
-            unitOfWork = new UnitOfWork();
+            this.unitOfWork = unitOfWork;
         }
 
-        public static ShoppingCart Instance
+        public static ShoppingCart GetShoppingCart(Controller controller, UnitOfWork unitOfWork)
         {
-            get
+            return GetShoppingCart(controller.HttpContext, unitOfWork);
+        }
+
+        public Order GetOrder()
+        {
+            var order = new Order();
+            order.OrderDetails = new List<OrderDetail>();
+            decimal orderTotalAmount = 0;
+            var cartItems = GetCartItems();
+
+            foreach (var item in cartItems)
             {
-                return instance ?? (instance = new ShoppingCart());
+                var orderDetail = new OrderDetail
+                {
+                    ProductId = item.ProductId,
+                    OrderId = order.OrderId,
+                    Amount = item.Product.Price,
+                    Quantity = item.Quantity
+                };
+
+                orderTotalAmount += item.Quantity * (item.Product.Price + (item.Product.Category.Tax / 100 * item.Product.Price));
+                order.OrderDetails.Add(orderDetail);
             }
+
+            order.TotalAmount = orderTotalAmount;
+
+            return order;
         }
 
-
-        public ShoppingCart GetShoppingCart(Controller controller)
+        private static ShoppingCart GetShoppingCart(HttpContextBase httpContext, UnitOfWork unitOfWork)
         {
-            return GetShoppingCart(controller.HttpContext);
-        }
-
-        private ShoppingCart GetShoppingCart(HttpContextBase httpContext)
-        {
-            var cart = new ShoppingCart();
+            var cart = new ShoppingCart(unitOfWork);
             cart.ShoppingCartId = cart.GetCartId(httpContext);
             return cart;
         }
@@ -72,17 +87,19 @@ namespace ShoppingGo.Business
                     CartId = ShoppingCartId,
                     Quantity = 1,
                     DateCreated = DateTime.Now
-                };                
+                };
+                cartItem.CalculateAmountAndTax();
                 
                 unitOfWork.CartRepository.InsertAsync(cartItem);
             }
             else
             {                
                 cartItem.Quantity++;
+                cartItem.CalculateAmountAndTax();
                 unitOfWork.CartRepository.UpdateAsync(cartItem);
             }
         }
-
+        
         public int RemoveFromCart(int id)
         {
             var cartItem = unitOfWork.CartRepository.Get()
@@ -98,6 +115,7 @@ namespace ShoppingGo.Business
                 {
                     cartItem.Quantity--;
                     itemCount = cartItem.Quantity;
+                    cartItem.CalculateAmountAndTax();
                     unitOfWork.CartRepository.UpdateAsync(cartItem);
                 }
                 else

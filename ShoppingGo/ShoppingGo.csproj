@@ -151,6 +151,7 @@
     <Compile Include="Business\ShoppingCart.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
@@ -171,6 +172,10 @@
     <Compile Include="Migrations\201805131459353_CartModelAdded.cs" />
     <Compile Include="Migrations\201805131459353_CartModelAdded.Designer.cs">
       <DependentUpon>201805131459353_CartModelAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805140426499_OrderModelUpdated.cs" />
+    <Compile Include="Migrations\201805140426499_OrderModelUpdated.Designer.cs">
+      <DependentUpon>201805140426499_OrderModelUpdated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cart.cs" />
@@ -241,6 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Checkout\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -267,6 +273,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805131459353_CartModelAdded.resx">
       <DependentUpon>201805131459353_CartModelAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805140426499_OrderModelUpdated.resx">
+      <DependentUpon>201805140426499_OrderModelUpdated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
