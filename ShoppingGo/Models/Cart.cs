@@ -7,7 +7,7 @@ using System.Web;
 namespace ShoppingGo.Models
 {
     public class Cart
-    {
+    {        
         [Key]
         public int RecordId { get; set; }
         public string CartId { get; set; }

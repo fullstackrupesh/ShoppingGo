@@ -19,6 +19,11 @@ namespace ShoppingGo.Repositories
             dbSet = context.Carts;
         }
 
+        public List<Cart> Get()
+        {
+            return dbSet.ToList();
+        }
+
         public Task<List<Cart>> GetAsync()
         {
             return dbSet.ToListAsync();
@@ -52,6 +57,5 @@ namespace ShoppingGo.Repositories
             dbSet.Remove(entity);
             return context.SaveChangesAsync();
         }
-
     }
 }

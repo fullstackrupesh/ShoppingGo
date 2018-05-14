@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ShoppingGo.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,23 +10,22 @@ namespace ShoppingGo.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private UnitOfWork unitOfWork;
+
+        public HomeController()
         {
-            return View();
+            unitOfWork = new UnitOfWork();
         }
 
-        public ActionResult About()
+        public HomeController(UnitOfWork unitOfWork)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            this.unitOfWork = unitOfWork;
         }
 
-        public ActionResult Contact()
+        public async Task<ActionResult> Index()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var products = await unitOfWork.ProductRepository.GetAsync();
+            return View(products);
         }
     }
 }

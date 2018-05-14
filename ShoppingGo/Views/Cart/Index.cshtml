@@ -1,0 +1,90 @@
+﻿@model ShoppingGo.ViewModels.CartViewModel
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+<h2>Review selected items</h2>
+
+<p class="btn-group">
+    @Html.ActionLink("<< Continue shopping", "Index", "Home", "", new { @class = "btn btn-default" })
+    @Html.ActionLink("Checkout >>", "AddressAndPayment", "Checkout", "", new { @class = "btn btn-primary" })
+</p>
+
+<div id="update-message" class="alert-info">
+
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Product Name
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Tax
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.CartItems)
+    {
+        <tr id="row-@item.RecordId">
+            <td>
+                @Html.ActionLink(item.Product.Name, "Details", "Product", new { id = item.ProductId }, null)
+            </td>
+            <td id="item-count-@item.RecordId">
+                @item.Quantity
+            </td>
+            <td>
+                @item.Amount
+            </td>
+            <td>
+                @item.Tax
+            </td>
+            <td>
+                <a href="#" class="RemoveLink alert-link" data-id="@item.RecordId">Remove from cart</a>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td><strong>Total</strong></td>
+        <td></td>
+        <td id="cart-total">@Model.CartTotalAmount</td>
+        <td id="cart-total-tax">@Model.CartTotalTax</td>
+        <td></td>
+    </tr>
+</table>
+
+
+@section scripts{
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".RemoveLink").click(function () {
+                var recordToDelete = $(this).attr("data-id");
+
+                if (recordToDelete != '') {
+                    $.post("/Cart/RemoveFromCart", { "id": recordToDelete },
+                        function (data) {
+                            if (data.ItemCount == 0) {
+                                $('#row-' + data.DeletedId).fadeOut('slow');
+                            } else {
+                                $('#item-count-' + data.DeletedId).text(data.ItemCount);
+                            }
+
+                            $('cart-total').text(data.CartTotalAmount);
+                            $('#update-message').text(data.Message);
+                            $('#cart-status').text('Cart (' + data.CartCount + ')');
+                        }
+                    )
+                }
+            });
+        });
+    </script>
+}

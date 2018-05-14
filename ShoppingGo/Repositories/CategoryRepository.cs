@@ -21,7 +21,7 @@ namespace ShoppingGo.Repositories
 
         public Task<List<Category>> GetAsync()
         {
-            return dbSet.ToListAsync();
+            return dbSet.Include("Products").ToListAsync();
         }
 
         public Task<Category> GetAsync(int? id)

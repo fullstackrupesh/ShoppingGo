@@ -37,6 +37,20 @@ namespace ShoppingGo.Repositories
             }
         }
 
+        private CartRepository cartRepository;
+
+        public CartRepository CartRepository
+        {
+            get
+            {
+                if (this.cartRepository == null)
+                {
+                    this.cartRepository = new CartRepository(context);
+                }
+                return cartRepository;
+            }            
+        }
+
         private GenericRepository<Order> orderRepository;
         public GenericRepository<Order> OrderRepository
         {
