@@ -177,6 +177,10 @@
     <Compile Include="Migrations\201805140426499_OrderModelUpdated.Designer.cs">
       <DependentUpon>201805140426499_OrderModelUpdated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805141749478_MobileNoAddedToOrderModel.cs" />
+    <Compile Include="Migrations\201805141749478_MobileNoAddedToOrderModel.Designer.cs">
+      <DependentUpon>201805141749478_MobileNoAddedToOrderModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -189,6 +193,8 @@
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\OrderDetailRepository.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\RepositoryContext.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />
@@ -243,10 +249,11 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\CartSummary.cshtml" />
+    <Content Include="Views\Checkout\ContactAndPayment.cshtml" />
+    <Content Include="Views\Checkout\Complete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Checkout\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -276,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805140426499_OrderModelUpdated.resx">
       <DependentUpon>201805140426499_OrderModelUpdated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805141749478_MobileNoAddedToOrderModel.resx">
+      <DependentUpon>201805141749478_MobileNoAddedToOrderModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

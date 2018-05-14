@@ -51,27 +51,27 @@ namespace ShoppingGo.Repositories
             }            
         }
 
-        private GenericRepository<Order> orderRepository;
-        public GenericRepository<Order> OrderRepository
+        private OrderRepository orderRepository;
+        public OrderRepository OrderRepository
         {
             get
             {
                 if (this.orderRepository == null)
                 {
-                    this.orderRepository = new GenericRepository<Order>(context);
+                    this.orderRepository = new OrderRepository(context);
                 }
                 return orderRepository;
             }
         }
 
-        private GenericRepository<OrderDetail> orderDetailRepository;
-        public GenericRepository<OrderDetail> OrderDetailRepository
+        private OrderDetailRepository orderDetailRepository;
+        public OrderDetailRepository OrderDetailRepository
         {
             get
             {
                 if (this.orderDetailRepository == null)
                 {
-                    this.orderDetailRepository = new GenericRepository<OrderDetail>(context);
+                    this.orderDetailRepository = new OrderDetailRepository(context);
                 }
                 return orderDetailRepository;
             }

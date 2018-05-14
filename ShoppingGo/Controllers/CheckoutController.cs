@@ -1,4 +1,5 @@
 ﻿using ShoppingGo.Business;
+using ShoppingGo.Models;
 using ShoppingGo.Repositories;
 using System;
 using System.Collections.Generic;
@@ -31,5 +32,45 @@ namespace ShoppingGo.Controllers
 
             return View(order);
         }
+
+        [HttpPost]
+        public ActionResult ContactAndPayment(FormCollection values)
+        {
+            var order = new Order();
+
+            TryUpdateModel(order);
+
+            try
+            {
+                order.DateCreated = DateTime.Now;
+
+                unitOfWork.OrderRepository.InsertAsync(order);
+
+                var cart = ShoppingCart.GetShoppingCart(this, unitOfWork);
+                cart.CreateOrder(order);
+
+                return RedirectToAction("Complete", new { id = order.OrderId });
+            }
+            catch (Exception )
+            {
+                return View(order);
+            }
+        }
+
+        public ActionResult Complete(int id)
+        {
+            bool isValid = unitOfWork.OrderRepository.Get()
+                .Any(o => o.OrderId == id);
+
+            if (isValid)
+            {
+                return View(id);
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
     }
 }

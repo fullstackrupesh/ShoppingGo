@@ -51,6 +51,38 @@ namespace ShoppingGo.Business
             return order;
         }
 
+        public int CreateOrder(Order order)
+        {
+            decimal orderTotal = 0;
+            decimal orderTax = 0;
+            var cartItems = GetCartItems();
+
+            foreach (var item in cartItems)
+            {
+                var orderDetail = new OrderDetail
+                {
+                    ProductId = item.ProductId,
+                    OrderId = order.OrderId,
+                    Amount = item.Product.Price,
+                    Quantity = item.Quantity
+                };
+
+                orderTotal += item.Quantity * (item.Product.Price + (item.Product.Category.Tax / 100 * item.Product.Price));
+                orderTax += item.Quantity * (item.Product.Category.Tax / 100 * item.Product.Price);
+                unitOfWork.OrderDetailRepository.InsertAsync(orderDetail);
+            }
+
+            order.TotalAmount = orderTotal;
+            order.TotalTax = orderTax;
+
+            unitOfWork.OrderRepository.UpdateAsync(order);
+
+            EmptyCart();
+
+            return order.OrderId;
+
+        }
+
         private static ShoppingCart GetShoppingCart(HttpContextBase httpContext, UnitOfWork unitOfWork)
         {
             var cart = new ShoppingCart(unitOfWork);

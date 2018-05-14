@@ -8,41 +8,46 @@ using System.Web;
 
 namespace ShoppingGo.Repositories
 {
-    public class CategoryRepository : IRepository<Category>, IDisposable
+    public class OrderRepository : IRepository<Order>, IDisposable
     {
         private RepositoryContext context;
-        private DbSet<Category> dbSet;
+        private DbSet<Order> dbSet;
 
-        public CategoryRepository(RepositoryContext context)
+        public OrderRepository(RepositoryContext context)
         {
             this.context = context;
-            dbSet = context.Categories;
+            dbSet = context.Orders;
         }
 
-        public Task<List<Category>> GetAsync()
+        public List<Order> Get()
         {
-            return dbSet.Include("Products").ToListAsync();
+            return dbSet.Include("OrderDetails").ToList();
         }
 
-        public Task<Category> GetAsync(int? id)
+        public Task<List<Order>> GetAsync()
+        {
+            return dbSet.Include("OrderDetails").ToListAsync();
+        }
+
+        public Task<Order> GetAsync(int? id)
         {
             return dbSet.FindAsync(id);
         }
 
-        public Task<int> InsertAsync(Category entity)
+        public Task<int> InsertAsync(Order entity)
         {
             dbSet.Add(entity);
             return context.SaveChangesAsync();
         }
 
-        public Task<int> UpdateAsync(Category entity)
+        public Task<int> UpdateAsync(Order entity)
         {
             dbSet.Attach(entity);
             context.Entry(entity).State = EntityState.Modified;
             return context.SaveChangesAsync();
         }
 
-        public Task<int> DeleteAsync(Category entity)
+        public Task<int> DeleteAsync(Order entity)
         {
             if (context.Entry(entity).State == EntityState.Detached)
             {
@@ -51,6 +56,7 @@ namespace ShoppingGo.Repositories
             dbSet.Remove(entity);
             return context.SaveChangesAsync();
         }
+
 
         private bool disposed = false;
         protected virtual void Dispose(bool disposing)
@@ -69,4 +75,5 @@ namespace ShoppingGo.Repositories
             GC.SuppressFinalize(this);
         }
     }
+
 }

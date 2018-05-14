@@ -8,41 +8,41 @@ using System.Web;
 
 namespace ShoppingGo.Repositories
 {
-    public class CategoryRepository : IRepository<Category>, IDisposable
+    public class OrderDetailRepository : IRepository<OrderDetail>, IDisposable
     {
         private RepositoryContext context;
-        private DbSet<Category> dbSet;
+        private DbSet<OrderDetail> dbSet;
 
-        public CategoryRepository(RepositoryContext context)
+        public OrderDetailRepository(RepositoryContext context)
         {
             this.context = context;
-            dbSet = context.Categories;
+            dbSet = context.OrderDetails;
         }
 
-        public Task<List<Category>> GetAsync()
+        public Task<List<OrderDetail>> GetAsync()
         {
-            return dbSet.Include("Products").ToListAsync();
+            return dbSet.ToListAsync();
         }
 
-        public Task<Category> GetAsync(int? id)
+        public Task<OrderDetail> GetAsync(int? id)
         {
             return dbSet.FindAsync(id);
         }
 
-        public Task<int> InsertAsync(Category entity)
+        public Task<int> InsertAsync(OrderDetail entity)
         {
             dbSet.Add(entity);
             return context.SaveChangesAsync();
         }
 
-        public Task<int> UpdateAsync(Category entity)
+        public Task<int> UpdateAsync(OrderDetail entity)
         {
             dbSet.Attach(entity);
             context.Entry(entity).State = EntityState.Modified;
             return context.SaveChangesAsync();
         }
 
-        public Task<int> DeleteAsync(Category entity)
+        public Task<int> DeleteAsync(OrderDetail entity)
         {
             if (context.Entry(entity).State == EntityState.Detached)
             {
@@ -68,5 +68,6 @@ namespace ShoppingGo.Repositories
 
             GC.SuppressFinalize(this);
         }
+
     }
 }
