@@ -4,6 +4,7 @@ using ShoppingGo.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -34,7 +35,7 @@ namespace ShoppingGo.Controllers
         }
 
         [HttpPost]
-        public ActionResult ContactAndPayment(FormCollection values)
+        public async Task<ActionResult> ContactAndPayment(FormCollection values)
         {
             var order = new Order();
 
@@ -44,10 +45,12 @@ namespace ShoppingGo.Controllers
             {
                 order.DateCreated = DateTime.Now;
 
-                unitOfWork.OrderRepository.InsertAsync(order);
+                await unitOfWork.OrderRepository.InsertAsync(order);
 
                 var cart = ShoppingCart.GetShoppingCart(this, unitOfWork);
-                cart.CreateOrder(order);
+                int? status = await cart.CreateOrderAsync(order);
+
+                await cart.EmptyCartAsync();
 
                 return RedirectToAction("Complete", new { id = order.OrderId });
             }

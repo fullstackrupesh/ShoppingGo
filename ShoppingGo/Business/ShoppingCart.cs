@@ -3,6 +3,7 @@ using ShoppingGo.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -30,6 +31,7 @@ namespace ShoppingGo.Business
             var order = new Order();
             order.OrderDetails = new List<OrderDetail>();
             decimal orderTotalAmount = 0;
+            decimal orderTax = 0;
             var cartItems = GetCartItems();
 
             foreach (var item in cartItems)
@@ -43,15 +45,17 @@ namespace ShoppingGo.Business
                 };
 
                 orderTotalAmount += item.Quantity * (item.Product.Price + (item.Product.Category.Tax / 100 * item.Product.Price));
+                orderTax += item.Quantity * (item.Product.Category.Tax / 100 * item.Product.Price);
                 order.OrderDetails.Add(orderDetail);
             }
 
             order.TotalAmount = orderTotalAmount;
-
+            order.TotalTax = orderTax;
+            
             return order;
         }
 
-        public int CreateOrder(Order order)
+        public async Task<int> CreateOrderAsync(Order order)
         {
             decimal orderTotal = 0;
             decimal orderTax = 0;
@@ -69,18 +73,15 @@ namespace ShoppingGo.Business
 
                 orderTotal += item.Quantity * (item.Product.Price + (item.Product.Category.Tax / 100 * item.Product.Price));
                 orderTax += item.Quantity * (item.Product.Category.Tax / 100 * item.Product.Price);
-                unitOfWork.OrderDetailRepository.InsertAsync(orderDetail);
+                await unitOfWork.OrderDetailRepository.InsertAsync(orderDetail);
             }
 
             order.TotalAmount = orderTotal;
             order.TotalTax = orderTax;
 
-            unitOfWork.OrderRepository.UpdateAsync(order);
-
-            EmptyCart();
+            await unitOfWork.OrderRepository.UpdateAsync(order);            
 
             return order.OrderId;
-
         }
 
         private static ShoppingCart GetShoppingCart(HttpContextBase httpContext, UnitOfWork unitOfWork)
@@ -158,14 +159,17 @@ namespace ShoppingGo.Business
             return itemCount;
         }
 
-        public void EmptyCart()
+        public async Task<int> EmptyCartAsync()
         {
+            int status = 0;
             var cartItems = unitOfWork.CartRepository.Get().Where(cart => cart.CartId == ShoppingCartId);
 
             foreach (var item in cartItems)
             {
-                unitOfWork.CartRepository.DeleteAsync(item);
-            }            
+                status += await unitOfWork.CartRepository.DeleteAsync(item);
+            }
+
+            return status;
         }
 
         public List<Cart> GetCartItems()
