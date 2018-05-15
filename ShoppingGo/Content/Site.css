@@ -33,3 +33,45 @@ textarea {
     display: block;
     padding: 7px 15px;
 }
+
+.list-group > li .product {
+    position: relative;
+    margin: 10px 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+    .list-group > li .product .name {
+        font-size: large;
+        font-weight: 700;
+    }
+
+    .list-group > li .product .product-details {
+        position: absolute;
+        top: 0;
+        left: 200px;
+    }
+
+        .list-group > li .product .product-details .price {
+            font-weight: bold;
+            display: block;
+        }
+
+            .list-group > li .product .product-details .price::after {
+                content: "₹";
+            }
+
+        .list-group > li .product .product-details .tax {
+            font-size: small;
+        }
+
+            .list-group > li .product .product-details .tax::after {
+                content: "% tax";
+            }
+
+    .list-group > li .product .btn {
+        position: absolute;        
+        left: 350px;
+        top:0;
+        border-color: orange;
+        background-color:orange;        
+    }

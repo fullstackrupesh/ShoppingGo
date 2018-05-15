@@ -51,7 +51,7 @@ namespace ShoppingGo.Controllers
 
                 return RedirectToAction("Complete", new { id = order.OrderId });
             }
-            catch (Exception )
+            catch (Exception ex)
             {
                 return View(order);
             }
